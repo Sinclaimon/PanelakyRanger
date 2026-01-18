@@ -1,0 +1,56 @@
+SKIING MOVEMENT SYSTEM (IDEA NOTES)
+
+Goal
+- Downhill skiing movement focused on flow, rhythm, and line choice.
+- Arcade carving with mild powder resistance, satisfying to do repeatedly.
+- Speed is earned and maintained, not constant.
+
+Core Feel
+- Turning costs a bit of speed (resistance).
+- Clean rhythm and good lines convert that cost into acceleration (release).
+- The player should feel when they are “in it” without needing UI.
+
+Flow State (implicit tier system)
+- Player has a flow tier that influences speed and feedback intensity.
+- Flow tier increases after multiple clean sequences, not instantly.
+- Missing rhythm or messing up line choice drops tier and reduces speed.
+- Variables should be exposed so tier count, gains, and losses can be tuned.
+
+Rhythm
+- Flow is built through a satisfying left-right carving rhythm, not button combos.
+- Rhythm becomes more demanding as speed increases.
+- Success should be primarily felt via response and feedback, UI optional for debugging.
+
+Environment and Line Choice
+- Terrain and tree placement create natural lines and rhythm opportunities.
+- Threading between trees is a high-value action that strongly contributes to flow tier gain.
+- For early prototype, missing a line is a missed opportunity more than a hard fail.
+- Later, trees can become higher risk (collision = bigger flow loss).
+
+Feedback Priorities
+- Snow spray is essential, and scales with flow tier and carving quality.
+- Tracks in snow are essential, and help show line quality and rhythm.
+- Camera responds to flow tier (subtle tilt, FOV/speed feeling, smoothness changes).
+- Basic audio supports carving quality (scrape/crunch/hiss), but does not explain systems.
+- Minimal UI, only to indicate tier changes if needed, keep it subtle.
+
+Player Actions (movement phase)
+- Carve left/right, with a strong sense of edge and resistance.
+- Dash on the snowboard for repositioning or burst of speed (tunable).
+- Movement should encourage maintaining rhythm through terrain rather than spamming dash.
+
+Success Definition (movement-only)
+- A player can enter flow, feel the difference, and try to maintain it.
+- Threading trees and carving rhythm are satisfying on their own.
+- The system supports experimentation with how harsh or forgiving turns and mistakes are.
+
+Tuning Questions (for iteration)
+- How much speed does a hard turn cost?
+- How many clean sequences to regain a tier?
+- How punishing is a missed rhythm or bad line?
+- How strong is the tree-threading reward?
+- How much do camera and VFX amplify the sensation of flow?
+
+Non-goals for now
+- No tricks, no complex animations, no fishing systems.
+- Build the fun movement loop first, then layer in everything else.
