@@ -89,7 +89,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     ""name"": ""PlayerControls"",
     ""maps"": [
         {
-            ""name"": ""Traversal"",
+            ""name"": ""Fishing"",
             ""id"": ""b6fd1f58-22c4-4271-a091-43cad369a3d6"",
             ""actions"": [
                 {
@@ -109,6 +109,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Flashlight"",
+                    ""type"": ""Button"",
+                    ""id"": ""3f703dfc-9a1b-4b7d-97d7-eb04dd1fccf8"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -133,52 +142,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                }
-            ]
-        },
-        {
-            ""name"": ""Fishing"",
-            ""id"": ""eec697a0-be63-4439-accf-eeb990c5a18c"",
-            ""actions"": [
-                {
-                    ""name"": ""Pause"",
-                    ""type"": ""Button"",
-                    ""id"": ""5b40406f-2a36-4ce1-8ba0-48e3d769f95d"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Look"",
-                    ""type"": ""Value"",
-                    ""id"": ""80c87b03-1ee0-41f4-a0e1-07244b5fa882"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                }
-            ],
-            ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""7183f0f1-0aae-4b4b-9774-43ce0e228ce9"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Pause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
-                    ""id"": ""9e494f30-9e70-41dd-8b6d-5f526ebd207b"",
-                    ""path"": """",
+                    ""id"": ""74a54f40-2822-4c42-b087-63d4ab75208c"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Look"",
+                    ""action"": ""Flashlight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -187,19 +159,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     ],
     ""controlSchemes"": []
 }");
-        // Traversal
-        m_Traversal = asset.FindActionMap("Traversal", throwIfNotFound: true);
-        m_Traversal_Pause = m_Traversal.FindAction("Pause", throwIfNotFound: true);
-        m_Traversal_Look = m_Traversal.FindAction("Look", throwIfNotFound: true);
         // Fishing
         m_Fishing = asset.FindActionMap("Fishing", throwIfNotFound: true);
         m_Fishing_Pause = m_Fishing.FindAction("Pause", throwIfNotFound: true);
         m_Fishing_Look = m_Fishing.FindAction("Look", throwIfNotFound: true);
+        m_Fishing_Flashlight = m_Fishing.FindAction("Flashlight", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
     {
-        UnityEngine.Debug.Assert(!m_Traversal.enabled, "This will cause a leak and performance issues, PlayerInputActions.Traversal.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Fishing.enabled, "This will cause a leak and performance issues, PlayerInputActions.Fishing.Disable() has not been called.");
     }
 
@@ -273,118 +241,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // Traversal
-    private readonly InputActionMap m_Traversal;
-    private List<ITraversalActions> m_TraversalActionsCallbackInterfaces = new List<ITraversalActions>();
-    private readonly InputAction m_Traversal_Pause;
-    private readonly InputAction m_Traversal_Look;
-    /// <summary>
-    /// Provides access to input actions defined in input action map "Traversal".
-    /// </summary>
-    public struct TraversalActions
-    {
-        private @PlayerInputActions m_Wrapper;
-
-        /// <summary>
-        /// Construct a new instance of the input action map wrapper class.
-        /// </summary>
-        public TraversalActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        /// <summary>
-        /// Provides access to the underlying input action "Traversal/Pause".
-        /// </summary>
-        public InputAction @Pause => m_Wrapper.m_Traversal_Pause;
-        /// <summary>
-        /// Provides access to the underlying input action "Traversal/Look".
-        /// </summary>
-        public InputAction @Look => m_Wrapper.m_Traversal_Look;
-        /// <summary>
-        /// Provides access to the underlying input action map instance.
-        /// </summary>
-        public InputActionMap Get() { return m_Wrapper.m_Traversal; }
-        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
-        public void Enable() { Get().Enable(); }
-        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
-        public void Disable() { Get().Disable(); }
-        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
-        public bool enabled => Get().enabled;
-        /// <summary>
-        /// Implicitly converts an <see ref="TraversalActions" /> to an <see ref="InputActionMap" /> instance.
-        /// </summary>
-        public static implicit operator InputActionMap(TraversalActions set) { return set.Get(); }
-        /// <summary>
-        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
-        /// </summary>
-        /// <param name="instance">Callback instance.</param>
-        /// <remarks>
-        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
-        /// </remarks>
-        /// <seealso cref="TraversalActions" />
-        public void AddCallbacks(ITraversalActions instance)
-        {
-            if (instance == null || m_Wrapper.m_TraversalActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_TraversalActionsCallbackInterfaces.Add(instance);
-            @Pause.started += instance.OnPause;
-            @Pause.performed += instance.OnPause;
-            @Pause.canceled += instance.OnPause;
-            @Look.started += instance.OnLook;
-            @Look.performed += instance.OnLook;
-            @Look.canceled += instance.OnLook;
-        }
-
-        /// <summary>
-        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
-        /// </summary>
-        /// <remarks>
-        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
-        /// </remarks>
-        /// <seealso cref="TraversalActions" />
-        private void UnregisterCallbacks(ITraversalActions instance)
-        {
-            @Pause.started -= instance.OnPause;
-            @Pause.performed -= instance.OnPause;
-            @Pause.canceled -= instance.OnPause;
-            @Look.started -= instance.OnLook;
-            @Look.performed -= instance.OnLook;
-            @Look.canceled -= instance.OnLook;
-        }
-
-        /// <summary>
-        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="TraversalActions.UnregisterCallbacks(ITraversalActions)" />.
-        /// </summary>
-        /// <seealso cref="TraversalActions.UnregisterCallbacks(ITraversalActions)" />
-        public void RemoveCallbacks(ITraversalActions instance)
-        {
-            if (m_Wrapper.m_TraversalActionsCallbackInterfaces.Remove(instance))
-                UnregisterCallbacks(instance);
-        }
-
-        /// <summary>
-        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
-        /// </summary>
-        /// <remarks>
-        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
-        /// </remarks>
-        /// <seealso cref="TraversalActions.AddCallbacks(ITraversalActions)" />
-        /// <seealso cref="TraversalActions.RemoveCallbacks(ITraversalActions)" />
-        /// <seealso cref="TraversalActions.UnregisterCallbacks(ITraversalActions)" />
-        public void SetCallbacks(ITraversalActions instance)
-        {
-            foreach (var item in m_Wrapper.m_TraversalActionsCallbackInterfaces)
-                UnregisterCallbacks(item);
-            m_Wrapper.m_TraversalActionsCallbackInterfaces.Clear();
-            AddCallbacks(instance);
-        }
-    }
-    /// <summary>
-    /// Provides a new <see cref="TraversalActions" /> instance referencing this action map.
-    /// </summary>
-    public TraversalActions @Traversal => new TraversalActions(this);
-
     // Fishing
     private readonly InputActionMap m_Fishing;
     private List<IFishingActions> m_FishingActionsCallbackInterfaces = new List<IFishingActions>();
     private readonly InputAction m_Fishing_Pause;
     private readonly InputAction m_Fishing_Look;
+    private readonly InputAction m_Fishing_Flashlight;
     /// <summary>
     /// Provides access to input actions defined in input action map "Fishing".
     /// </summary>
@@ -404,6 +266,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Fishing/Look".
         /// </summary>
         public InputAction @Look => m_Wrapper.m_Fishing_Look;
+        /// <summary>
+        /// Provides access to the underlying input action "Fishing/Flashlight".
+        /// </summary>
+        public InputAction @Flashlight => m_Wrapper.m_Fishing_Flashlight;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -436,6 +302,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
+            @Flashlight.started += instance.OnFlashlight;
+            @Flashlight.performed += instance.OnFlashlight;
+            @Flashlight.canceled += instance.OnFlashlight;
         }
 
         /// <summary>
@@ -453,6 +322,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
+            @Flashlight.started -= instance.OnFlashlight;
+            @Flashlight.performed -= instance.OnFlashlight;
+            @Flashlight.canceled -= instance.OnFlashlight;
         }
 
         /// <summary>
@@ -487,28 +359,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     /// </summary>
     public FishingActions @Fishing => new FishingActions(this);
     /// <summary>
-    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Traversal" which allows adding and removing callbacks.
-    /// </summary>
-    /// <seealso cref="TraversalActions.AddCallbacks(ITraversalActions)" />
-    /// <seealso cref="TraversalActions.RemoveCallbacks(ITraversalActions)" />
-    public interface ITraversalActions
-    {
-        /// <summary>
-        /// Method invoked when associated input action "Pause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnPause(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Look" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnLook(InputAction.CallbackContext context);
-    }
-    /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Fishing" which allows adding and removing callbacks.
     /// </summary>
     /// <seealso cref="FishingActions.AddCallbacks(IFishingActions)" />
@@ -529,5 +379,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLook(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Flashlight" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnFlashlight(InputAction.CallbackContext context);
     }
 }

@@ -3,7 +3,7 @@
     "name": "PlayerControls",
     "maps": [
         {
-            "name": "Traversal",
+            "name": "Fishing",
             "id": "b6fd1f58-22c4-4271-a091-43cad369a3d6",
             "actions": [
                 {
@@ -23,6 +23,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Flashlight",
+                    "type": "Button",
+                    "id": "3f703dfc-9a1b-4b7d-97d7-eb04dd1fccf8",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -47,52 +56,15 @@
                     "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": false
-                }
-            ]
-        },
-        {
-            "name": "Fishing",
-            "id": "eec697a0-be63-4439-accf-eeb990c5a18c",
-            "actions": [
-                {
-                    "name": "Pause",
-                    "type": "Button",
-                    "id": "5b40406f-2a36-4ce1-8ba0-48e3d769f95d",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Look",
-                    "type": "Value",
-                    "id": "80c87b03-1ee0-41f4-a0e1-07244b5fa882",
-                    "expectedControlType": "Vector2",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "7183f0f1-0aae-4b4b-9774-43ce0e228ce9",
-                    "path": "<Keyboard>/escape",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Pause",
-                    "isComposite": false,
-                    "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "9e494f30-9e70-41dd-8b6d-5f526ebd207b",
-                    "path": "",
+                    "id": "74a54f40-2822-4c42-b087-63d4ab75208c",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Look",
+                    "action": "Flashlight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
