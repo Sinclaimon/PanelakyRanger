@@ -1,0 +1,21 @@
+roadmap: 
+
+SKIING MOVEMENT FUTURE PLANS (short roadmap)
+
+- Core prototype goals
+  - Focus on arcade carving feel: resistance then release.
+  - Flow tiers: implicit state increasing after clean carves / sequences.
+  - Minimal UI; emphasize camera, VFX (snow spray), and audio.
+
+- Near-term tasks
+  1. Base scene + input (Terrain, Capsule skier, camera, Traversal.Steer)
+  2. SkierController: downhill force, lateral damping, steering torque (Rigidbody)
+  3. Camera feedback: tilt/roll + subtle FOV shifts (BasicCamera.ApplyTilt)
+  4. FlowState skeleton: counters for clean carves, tier API
+  5. Small HUD for debugging speed + tier
+  6. Procedural terrain generator & spawners (later)
+
+- Notes
+  - Keep movement & camera responsibilities separated (SRP): movement computes desired tilt, camera applies smoothing and visuals.
+  - Expose tuning values in inspector for rapid iteration.
+  - Use manual lateral damping (AddForce) rather than solely physics materials to control carving feel.
