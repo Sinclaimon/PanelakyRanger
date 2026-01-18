@@ -118,6 +118,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""72a85b03-9861-4358-a92b-fc83e2c54243"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -153,6 +162,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""action"": ""Flashlight"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""469fe5ed-2879-45e9-b9db-4e77969b508e"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -164,6 +184,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Fishing_Pause = m_Fishing.FindAction("Pause", throwIfNotFound: true);
         m_Fishing_Look = m_Fishing.FindAction("Look", throwIfNotFound: true);
         m_Fishing_Flashlight = m_Fishing.FindAction("Flashlight", throwIfNotFound: true);
+        m_Fishing_Interact = m_Fishing.FindAction("Interact", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
@@ -247,6 +268,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Fishing_Pause;
     private readonly InputAction m_Fishing_Look;
     private readonly InputAction m_Fishing_Flashlight;
+    private readonly InputAction m_Fishing_Interact;
     /// <summary>
     /// Provides access to input actions defined in input action map "Fishing".
     /// </summary>
@@ -270,6 +292,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Fishing/Flashlight".
         /// </summary>
         public InputAction @Flashlight => m_Wrapper.m_Fishing_Flashlight;
+        /// <summary>
+        /// Provides access to the underlying input action "Fishing/Interact".
+        /// </summary>
+        public InputAction @Interact => m_Wrapper.m_Fishing_Interact;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -305,6 +331,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Flashlight.started += instance.OnFlashlight;
             @Flashlight.performed += instance.OnFlashlight;
             @Flashlight.canceled += instance.OnFlashlight;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
         }
 
         /// <summary>
@@ -325,6 +354,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Flashlight.started -= instance.OnFlashlight;
             @Flashlight.performed -= instance.OnFlashlight;
             @Flashlight.canceled -= instance.OnFlashlight;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
         }
 
         /// <summary>
@@ -386,5 +418,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnFlashlight(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Interact" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnInteract(InputAction.CallbackContext context);
     }
 }
