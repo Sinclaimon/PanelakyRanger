@@ -1,16 +1,24 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class SkierCOntroller : MonoBehaviour
+[RequireComponent(typeof(Rigidbody), typeof(CapsuleCollider))]
+public class SkierController : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    [Header("References")]
+    [SerializeField] private Transform skierMesh;
+    [SerializeField] private BasicCamera basicCamera;
 
-    // Update is called once per frame
-    void Update()
+    [Header("Tuning")]
+    [SerializeField] private float maxSpeed = 20f;
+    [SerializeField] private float steerStrength = 6f;
+    [SerializeField] private float brakeStrength = 12f;
+
+    private Rigidbody rb;
+    private Vector2 steerInput;
+    private float brakeInput;
+
+    private void Awake()
     {
-        
+          rb = GetComponent<Rigidbody>(); 
     }
 }
