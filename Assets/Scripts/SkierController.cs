@@ -5,9 +5,9 @@ public class SkierController : MonoBehaviour
 {
     [Header("Tuning")]
     [SerializeField] private float downhillForce = 25f;
-    [SerializeField] private float maxSpeed = 30f;
+    [SerializeField] private float maxSpeed = 15f;
     [SerializeField] private float lateralDamping = 8f;
-    [SerializeField] private float steerTorque = 6f;
+    [SerializeField] private float steerTorque = 2f;
     [SerializeField] private float brakeDrag = 3f;
 
     [Header("References")]
@@ -20,9 +20,15 @@ public class SkierController : MonoBehaviour
     private void Awake()
     {
         if (input == null)
-            input = GetComponent<InputHub>();
+            input = GetComponentInParent<InputHub>();
+
+        if (input == null)
+            Debug.LogError("BasicCamera: No InputHub found in parent hierarchy.");
+
+
         rb = GetComponent<Rigidbody>();
         defaultDrag = rb.linearDamping;
+
     }
 
     private void OnSteer(InputAction.CallbackContext ctx)
@@ -37,7 +43,7 @@ public class SkierController : MonoBehaviour
 
     private void Start()
     {
-        rb.AddForce(transform.forward * 20f, ForceMode.Acceleration);
+        rb.AddForce(transform.forward * 2f, ForceMode.Acceleration);
     }
 
     private void FixedUpdate()

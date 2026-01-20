@@ -13,6 +13,15 @@ public class BasicCamera : MonoBehaviour
 
     private float xRotation;
 
+
+    private void Awake()
+    {
+        if (input == null)
+            input = GetComponentInParent<InputHub>();
+
+        if (input == null)
+            Debug.LogError("BasicCamera: No InputHub found in parent hierarchy.");
+    }
     private void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
