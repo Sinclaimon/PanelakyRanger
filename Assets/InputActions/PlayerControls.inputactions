@@ -143,7 +143,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "New action1",
+                    "name": "Break",
                     "type": "Button",
                     "id": "78586d44-180b-4e64-ac3d-cedfbca81a5b",
                     "expectedControlType": "",
@@ -163,17 +163,6 @@
             ],
             "bindings": [
                 {
-                    "name": "",
-                    "id": "b3000552-d2d4-4064-ba38-852de2db1947",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Steer",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
                     "name": "1D Axis",
                     "id": "3ac22a8f-664d-4b10-a664-a3e9024e350d",
                     "path": "1DAxis",
@@ -187,7 +176,7 @@
                 {
                     "name": "negative",
                     "id": "a15855e4-f7a5-45f3-abc6-3cc735caf837",
-                    "path": "",
+                    "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -198,7 +187,40 @@
                 {
                     "name": "positive",
                     "id": "b77a7720-2cc4-4df6-8bf7-f0375ba28392",
-                    "path": "",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Steer",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "1a5ae892-b427-40ed-b188-6a36075fc647",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Steer",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "b4eae5a9-f534-4352-9514-84fb0780f650",
+                    "path": "<Gamepad>/leftStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Steer",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "3281afd0-42b8-40ea-b2e7-4648ccee6f6a",
+                    "path": "<Gamepad>/leftStick/right",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -213,7 +235,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action1",
+                    "action": "Break",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -224,7 +246,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action1",
+                    "action": "Break",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
