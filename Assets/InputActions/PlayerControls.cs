@@ -220,9 +220,27 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             ""id"": ""ab3e01a0-83d3-4ba4-bc02-2aaf35de1d0f"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""Steer"",
                     ""type"": ""Button"",
                     ""id"": ""b0df5152-3f64-4fa7-8784-15bd66add58a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""New action1"",
+                    ""type"": ""Button"",
+                    ""id"": ""78586d44-180b-4e64-ac3d-cedfbca81a5b"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""New action"",
+                    ""type"": ""Button"",
+                    ""id"": ""6a8d3785-95c8-44b4-be00-b053392dee12"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -233,6 +251,72 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""b3000552-d2d4-4064-ba38-852de2db1947"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Steer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""3ac22a8f-664d-4b10-a664-a3e9024e350d"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Steer"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""a15855e4-f7a5-45f3-abc6-3cc735caf837"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Steer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""b77a7720-2cc4-4df6-8bf7-f0375ba28392"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Steer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""47039d4b-82c9-4e4c-9032-8807af3be312"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""New action1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2031a969-894b-42e1-a2b2-f3de7a4dcab6"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""New action1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0b2b76b9-a234-4fea-8895-14bea41f3e03"",
                     ""path"": """",
                     ""interactions"": """",
                     ""processors"": """",
@@ -257,6 +341,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Fishing_Interact = m_Fishing.FindAction("Interact", throwIfNotFound: true);
         // Skiing
         m_Skiing = asset.FindActionMap("Skiing", throwIfNotFound: true);
+        m_Skiing_Steer = m_Skiing.FindAction("Steer", throwIfNotFound: true);
+        m_Skiing_Newaction1 = m_Skiing.FindAction("New action1", throwIfNotFound: true);
         m_Skiing_Newaction = m_Skiing.FindAction("New action", throwIfNotFound: true);
     }
 
@@ -565,6 +651,8 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     // Skiing
     private readonly InputActionMap m_Skiing;
     private List<ISkiingActions> m_SkiingActionsCallbackInterfaces = new List<ISkiingActions>();
+    private readonly InputAction m_Skiing_Steer;
+    private readonly InputAction m_Skiing_Newaction1;
     private readonly InputAction m_Skiing_Newaction;
     /// <summary>
     /// Provides access to input actions defined in input action map "Skiing".
@@ -577,6 +665,14 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
         public SkiingActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Skiing/Steer".
+        /// </summary>
+        public InputAction @Steer => m_Wrapper.m_Skiing_Steer;
+        /// <summary>
+        /// Provides access to the underlying input action "Skiing/Newaction1".
+        /// </summary>
+        public InputAction @Newaction1 => m_Wrapper.m_Skiing_Newaction1;
         /// <summary>
         /// Provides access to the underlying input action "Skiing/Newaction".
         /// </summary>
@@ -607,6 +703,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_SkiingActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_SkiingActionsCallbackInterfaces.Add(instance);
+            @Steer.started += instance.OnSteer;
+            @Steer.performed += instance.OnSteer;
+            @Steer.canceled += instance.OnSteer;
+            @Newaction1.started += instance.OnNewaction1;
+            @Newaction1.performed += instance.OnNewaction1;
+            @Newaction1.canceled += instance.OnNewaction1;
             @Newaction.started += instance.OnNewaction;
             @Newaction.performed += instance.OnNewaction;
             @Newaction.canceled += instance.OnNewaction;
@@ -621,6 +723,12 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="SkiingActions" />
         private void UnregisterCallbacks(ISkiingActions instance)
         {
+            @Steer.started -= instance.OnSteer;
+            @Steer.performed -= instance.OnSteer;
+            @Steer.canceled -= instance.OnSteer;
+            @Newaction1.started -= instance.OnNewaction1;
+            @Newaction1.performed -= instance.OnNewaction1;
+            @Newaction1.canceled -= instance.OnNewaction1;
             @Newaction.started -= instance.OnNewaction;
             @Newaction.performed -= instance.OnNewaction;
             @Newaction.canceled -= instance.OnNewaction;
@@ -715,6 +823,20 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     /// <seealso cref="SkiingActions.RemoveCallbacks(ISkiingActions)" />
     public interface ISkiingActions
     {
+        /// <summary>
+        /// Method invoked when associated input action "Steer" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnSteer(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "New action1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnNewaction1(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "New action" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
