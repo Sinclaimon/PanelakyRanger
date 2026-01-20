@@ -23,8 +23,8 @@ public class BasicCamera : MonoBehaviour
     void OnEnable()
     {
         controls.Enable();
-        controls.Fishing.Look.performed += ctx => lookInput = ctx.ReadValue<Vector2>();
-        controls.Fishing.Look.canceled += ctx => lookInput = Vector2.zero;
+        controls.Common.Look.performed += ctx => lookInput = ctx.ReadValue<Vector2>();
+        controls.Common.Look.canceled += ctx => lookInput = Vector2.zero;
     }
 
     void OnDisable()

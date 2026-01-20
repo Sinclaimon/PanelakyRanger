@@ -21,7 +21,7 @@ public class Flashlight : MonoBehaviour
 
     void OnDisable()
     {
-        controls.Fishing.Pause.performed -= OnF;
+        controls.Common.Pause.performed -= OnF;
         controls.Disable();
     }
 

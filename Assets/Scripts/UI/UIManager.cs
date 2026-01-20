@@ -16,13 +16,13 @@ public class UIManager : MonoBehaviour
     void OnEnable()
     {
         controls.Enable();
-        controls.Fishing.Pause.performed += OnPause;
+        controls.Common.Pause.performed += OnPause;
         //controls.(ActionMap).(Action).performed 
     }
 
     void OnDisable()
     {
-        controls.Fishing.Pause.performed -= OnPause;
+        controls.Common.Pause.performed -= OnPause;
         controls.Disable();
     }
 

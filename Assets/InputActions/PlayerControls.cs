@@ -89,18 +89,68 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     ""name"": ""PlayerControls"",
     ""maps"": [
         {
-            ""name"": ""Fishing"",
-            ""id"": ""b6fd1f58-22c4-4271-a091-43cad369a3d6"",
+            ""name"": ""Common"",
+            ""id"": ""ce8f71f0-cd0c-48d8-9212-135586f7cf6a"",
             ""actions"": [
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""Value"",
+                    ""id"": ""fe9fee02-377e-49f0-9ee2-93c98dacc58a"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
                 {
                     ""name"": ""Pause"",
                     ""type"": ""Button"",
-                    ""id"": ""4f0f9e39-17b7-4940-987f-cc4d8de94b65"",
+                    ""id"": ""f36e10aa-5c17-41ef-b0d8-2fcd26a912c6"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""fb897145-9dc8-4cbc-88c5-09e4ff6671b1"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 },
+                {
+                    ""name"": """",
+                    ""id"": ""77661454-53d9-484a-b390-7187f71dd96a"",
+                    ""path"": ""<Gamepad>/rightStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d500749b-0f2a-4dc6-84ea-b7cbf15009de"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Fishing"",
+            ""id"": ""b6fd1f58-22c4-4271-a091-43cad369a3d6"",
+            ""actions"": [
                 {
                     ""name"": ""Look"",
                     ""type"": ""Value"",
@@ -130,17 +180,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""4a695f74-338b-48a4-8120-d39ddfdceac2"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Pause"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": """",
                     ""id"": ""9438a399-1d0a-41c2-8506-e9873e7e43ec"",
@@ -175,21 +214,57 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Skiing"",
+            ""id"": ""ab3e01a0-83d3-4ba4-bc02-2aaf35de1d0f"",
+            ""actions"": [
+                {
+                    ""name"": ""New action"",
+                    ""type"": ""Button"",
+                    ""id"": ""b0df5152-3f64-4fa7-8784-15bd66add58a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""b3000552-d2d4-4064-ba38-852de2db1947"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""New action"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
 }");
+        // Common
+        m_Common = asset.FindActionMap("Common", throwIfNotFound: true);
+        m_Common_Look = m_Common.FindAction("Look", throwIfNotFound: true);
+        m_Common_Pause = m_Common.FindAction("Pause", throwIfNotFound: true);
         // Fishing
         m_Fishing = asset.FindActionMap("Fishing", throwIfNotFound: true);
-        m_Fishing_Pause = m_Fishing.FindAction("Pause", throwIfNotFound: true);
         m_Fishing_Look = m_Fishing.FindAction("Look", throwIfNotFound: true);
         m_Fishing_Flashlight = m_Fishing.FindAction("Flashlight", throwIfNotFound: true);
         m_Fishing_Interact = m_Fishing.FindAction("Interact", throwIfNotFound: true);
+        // Skiing
+        m_Skiing = asset.FindActionMap("Skiing", throwIfNotFound: true);
+        m_Skiing_Newaction = m_Skiing.FindAction("New action", throwIfNotFound: true);
     }
 
     ~@PlayerInputActions()
     {
+        UnityEngine.Debug.Assert(!m_Common.enabled, "This will cause a leak and performance issues, PlayerInputActions.Common.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Fishing.enabled, "This will cause a leak and performance issues, PlayerInputActions.Fishing.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Skiing.enabled, "This will cause a leak and performance issues, PlayerInputActions.Skiing.Disable() has not been called.");
     }
 
     /// <summary>
@@ -262,10 +337,116 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
+    // Common
+    private readonly InputActionMap m_Common;
+    private List<ICommonActions> m_CommonActionsCallbackInterfaces = new List<ICommonActions>();
+    private readonly InputAction m_Common_Look;
+    private readonly InputAction m_Common_Pause;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Common".
+    /// </summary>
+    public struct CommonActions
+    {
+        private @PlayerInputActions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public CommonActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Common/Look".
+        /// </summary>
+        public InputAction @Look => m_Wrapper.m_Common_Look;
+        /// <summary>
+        /// Provides access to the underlying input action "Common/Pause".
+        /// </summary>
+        public InputAction @Pause => m_Wrapper.m_Common_Pause;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Common; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="CommonActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(CommonActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="CommonActions" />
+        public void AddCallbacks(ICommonActions instance)
+        {
+            if (instance == null || m_Wrapper.m_CommonActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_CommonActionsCallbackInterfaces.Add(instance);
+            @Look.started += instance.OnLook;
+            @Look.performed += instance.OnLook;
+            @Look.canceled += instance.OnLook;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="CommonActions" />
+        private void UnregisterCallbacks(ICommonActions instance)
+        {
+            @Look.started -= instance.OnLook;
+            @Look.performed -= instance.OnLook;
+            @Look.canceled -= instance.OnLook;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="CommonActions.UnregisterCallbacks(ICommonActions)" />.
+        /// </summary>
+        /// <seealso cref="CommonActions.UnregisterCallbacks(ICommonActions)" />
+        public void RemoveCallbacks(ICommonActions instance)
+        {
+            if (m_Wrapper.m_CommonActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="CommonActions.AddCallbacks(ICommonActions)" />
+        /// <seealso cref="CommonActions.RemoveCallbacks(ICommonActions)" />
+        /// <seealso cref="CommonActions.UnregisterCallbacks(ICommonActions)" />
+        public void SetCallbacks(ICommonActions instance)
+        {
+            foreach (var item in m_Wrapper.m_CommonActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_CommonActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="CommonActions" /> instance referencing this action map.
+    /// </summary>
+    public CommonActions @Common => new CommonActions(this);
+
     // Fishing
     private readonly InputActionMap m_Fishing;
     private List<IFishingActions> m_FishingActionsCallbackInterfaces = new List<IFishingActions>();
-    private readonly InputAction m_Fishing_Pause;
     private readonly InputAction m_Fishing_Look;
     private readonly InputAction m_Fishing_Flashlight;
     private readonly InputAction m_Fishing_Interact;
@@ -280,10 +461,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
         public FishingActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        /// <summary>
-        /// Provides access to the underlying input action "Fishing/Pause".
-        /// </summary>
-        public InputAction @Pause => m_Wrapper.m_Fishing_Pause;
         /// <summary>
         /// Provides access to the underlying input action "Fishing/Look".
         /// </summary>
@@ -322,9 +499,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_FishingActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_FishingActionsCallbackInterfaces.Add(instance);
-            @Pause.started += instance.OnPause;
-            @Pause.performed += instance.OnPause;
-            @Pause.canceled += instance.OnPause;
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
@@ -345,9 +519,6 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="FishingActions" />
         private void UnregisterCallbacks(IFishingActions instance)
         {
-            @Pause.started -= instance.OnPause;
-            @Pause.performed -= instance.OnPause;
-            @Pause.canceled -= instance.OnPause;
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
@@ -390,13 +561,116 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="FishingActions" /> instance referencing this action map.
     /// </summary>
     public FishingActions @Fishing => new FishingActions(this);
+
+    // Skiing
+    private readonly InputActionMap m_Skiing;
+    private List<ISkiingActions> m_SkiingActionsCallbackInterfaces = new List<ISkiingActions>();
+    private readonly InputAction m_Skiing_Newaction;
     /// <summary>
-    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Fishing" which allows adding and removing callbacks.
+    /// Provides access to input actions defined in input action map "Skiing".
     /// </summary>
-    /// <seealso cref="FishingActions.AddCallbacks(IFishingActions)" />
-    /// <seealso cref="FishingActions.RemoveCallbacks(IFishingActions)" />
-    public interface IFishingActions
+    public struct SkiingActions
     {
+        private @PlayerInputActions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public SkiingActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Skiing/Newaction".
+        /// </summary>
+        public InputAction @Newaction => m_Wrapper.m_Skiing_Newaction;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Skiing; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="SkiingActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(SkiingActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="SkiingActions" />
+        public void AddCallbacks(ISkiingActions instance)
+        {
+            if (instance == null || m_Wrapper.m_SkiingActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_SkiingActionsCallbackInterfaces.Add(instance);
+            @Newaction.started += instance.OnNewaction;
+            @Newaction.performed += instance.OnNewaction;
+            @Newaction.canceled += instance.OnNewaction;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="SkiingActions" />
+        private void UnregisterCallbacks(ISkiingActions instance)
+        {
+            @Newaction.started -= instance.OnNewaction;
+            @Newaction.performed -= instance.OnNewaction;
+            @Newaction.canceled -= instance.OnNewaction;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="SkiingActions.UnregisterCallbacks(ISkiingActions)" />.
+        /// </summary>
+        /// <seealso cref="SkiingActions.UnregisterCallbacks(ISkiingActions)" />
+        public void RemoveCallbacks(ISkiingActions instance)
+        {
+            if (m_Wrapper.m_SkiingActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="SkiingActions.AddCallbacks(ISkiingActions)" />
+        /// <seealso cref="SkiingActions.RemoveCallbacks(ISkiingActions)" />
+        /// <seealso cref="SkiingActions.UnregisterCallbacks(ISkiingActions)" />
+        public void SetCallbacks(ISkiingActions instance)
+        {
+            foreach (var item in m_Wrapper.m_SkiingActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_SkiingActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="SkiingActions" /> instance referencing this action map.
+    /// </summary>
+    public SkiingActions @Skiing => new SkiingActions(this);
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Common" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="CommonActions.AddCallbacks(ICommonActions)" />
+    /// <seealso cref="CommonActions.RemoveCallbacks(ICommonActions)" />
+    public interface ICommonActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Look" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLook(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Pause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -404,6 +678,14 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPause(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Fishing" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="FishingActions.AddCallbacks(IFishingActions)" />
+    /// <seealso cref="FishingActions.RemoveCallbacks(IFishingActions)" />
+    public interface IFishingActions
+    {
         /// <summary>
         /// Method invoked when associated input action "Look" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
@@ -425,5 +707,20 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInteract(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Skiing" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="SkiingActions.AddCallbacks(ISkiingActions)" />
+    /// <seealso cref="SkiingActions.RemoveCallbacks(ISkiingActions)" />
+    public interface ISkiingActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "New action" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnNewaction(InputAction.CallbackContext context);
     }
 }
