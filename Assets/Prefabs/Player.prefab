@@ -372,6 +372,7 @@ GameObject:
   - component: {fileID: 8203650580132951329}
   - component: {fileID: 2221334473264067411}
   - component: {fileID: 1594048803631506543}
+  - component: {fileID: 6977825069066967064}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -513,10 +514,10 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 14
+  m_Constraints: 48
   m_CollisionDetection: 0
 --- !u!114 &2221334473264067411
 MonoBehaviour:
@@ -543,3 +544,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a7f212d2da103f4a9f27660d4b785b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SkierControlller
+  downhillForce: 25
+  maxSpeed: 30
+  lateralDamping: 8
+  steerTorque: 6
+  brakeDrag: 3
+--- !u!114 &6977825069066967064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8856682138947684209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b6ca467814337b45a50636bf5f7aecf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
