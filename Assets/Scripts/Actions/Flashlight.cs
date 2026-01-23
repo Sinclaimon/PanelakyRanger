@@ -11,11 +11,11 @@ public class Flashlight : MonoBehaviour
     {
         controls = new PlayerInputActions();
     }
-
+    
     void OnEnable()
     {
         controls.Enable();
-        controls.Fishing.Flashlight.performed += OnF;
+        controls.Common.Flashlight.performed += OnF;
         //controls.(ActionMap).(Action).performed 
     }
 
